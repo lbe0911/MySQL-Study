@@ -28,7 +28,8 @@
 ### 3. SELECT와 FROM
     - 형식 : SELECT * FROM titles ;
     - 위 형식에서 SELECT 뒤 *은 모든것을 의미. 즉 모든열을 선택 FROM 뒤는 테이블 또는 뷰등의 항목. 풀이하자면 'titles 테이블에서 모든열의 내용을 가져와라' 이다.
-    - 동일한 형식으로 SELECT * FROM employees.titles; 이다. 원래 테이블의 전체 이름은 '데이터베이스이름.테이블이름' 형식으로 표현하지만, 생략하더라도 선택된 데이터베이스 이름이 자동으로 붙게되어 쿼리가 실행된다.
+    - 동일한 형식으로 SELECT * FROM employees.titles; 이다. 원래 테이블의 전체 이름은 '데이터베이스이름.테이블이름' 형식으로 표현하지만, 생략하더라도 선택된 
+      데이터베이스 이름이 자동으로 붙게되어 쿼리가 실행된다.
     - 필요한 열만 선택해서 가져오고 싶을경우, 선택할 열 이름을 입력, 여러 개의 열을 가져오고 싶으면 콤마(,)로 구분해서 입력하면 된다.
 * Tip
     - 주석 '--'쓰고 한칸 띄어서 글 입력 <- 한줄 주석만 가능, /* ... */ <- 여러줄 주석 가능. 주석으로 묶이면 해당 글자는 회색으로 보인다.
@@ -141,7 +142,7 @@
     - 추가로 총 구매액이 적은 사용자부터 나타내고 싶으면 ORDER BY절 사용
     SELECT userID '사용자', SUM(price*amount) '총 구매액' FROM buytbl GROUP BY userID HAVING SUM(price*amount) > 1000 ORDER BY SUM(price*amount);
 
-### ROLL UP
+### 12. ROLL UP
     - 총합 또는 중간 합계가 필요하다면 GROUP BY절과 함께 WITH ROLL UP문을 사용하면 된다. 만약 분류별로 함계 및 총합을 구하고 싶을경우
     SELECT num, groupName, SUM(price*amount) FROM buytbl GROUP BY groupName, num WITH ROLL UP;
     groupName별 비용 소합계 행이 중간중간 추가되고, 맨 마지막행에 groupName별 비용 총합계 행이 추가된다.
