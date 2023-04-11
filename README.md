@@ -128,20 +128,25 @@
     SELECT userID, SUM(price * amount) FROM buytbl GROUP BY userID ;
 #### 집계 함수
     - GROUP BY와 함께 주로 사용하는 집계 함수는 아래 참고
-    - AVG() : 평균 / MIN() : 최소값 / MAX() : 최대값 / COUNT() : 개수 / COUNT(DISTINCT) : 중복제거 개수 / STDEV() : 표준편차 / VAR_SAMP() : 분산
+    - AVG() : 평균 / MIN() : 최소값 / MAX() : 최대값 / COUNT() : 개수 / COUNT(DISTINCT) : 중복제거 개수
+      STDEV() : 표준편차 / VAR_SAMP() : 분산
     - 이중 가장 큰 키와 작은 키의 회원 이름과 키를 출력하는 쿼리를 작성
     SELECT userName, MIN(height), MAX(height) FROM usertbl;
     결과는 가장 큰 키와 작은 키 나왔지만, 이름은 하나뿐이라서 어떤것에 해당되는지 알수가 없음. GROUP BY를 활용해서 수정해보면
     SELECT userName, MIN(height), MAX(height) FROM usertbl GROUP BY userName; 모든 결과가 다 나와버림...
     이럴때는 서브쿼리를 사용하는 것이 좋다.
-    SELECT userName, height FROM usertbl WHERE height = (SELECT MIN(height) FROM usertbl) or height(SELECT MAX(height) FROM usertbl);
+    SELECT userName, height FROM usertbl WHERE height = (SELECT MIN(height) FROM usertbl) or 
+    height(SELECT MAX(height) FROM usertbl);
 #### HAVING절
-    - HAVING은 WHERE와 비슷한 개념으로 조건을 제한하는 것이지만 짐계함수에 대해서 조건을 제한하는 것이라고 생각하면 된다. 그리고 GROUP BY절 다음에 나와야 한다. 순서가 바뀌면 안된다!
+    - HAVING은 WHERE와 비슷한 개념으로 조건을 제한하는 것이지만 짐계함수에 대해서 조건을 제한하는 것이라고 생각하면 된다. 
+      그리고 GROUP BY절 다음에 나와야 한다. 순서가 바뀌면 안된다!
     - 사용자별 총 구매액을 확인 후 사용금액이 1000 이상인 사람에게 사은품을 주고 싶다. 쿼리문을 짜보면
-    SELECT userID '사용자', SUM(price*amount) '총 구매액' FROM buytbl GROUP BY userID ; 여기서 WHERE SUM(price*amount) > 1000을 추가했을 것이다. 근데 오류가 난다... 이럴때 사용하는게 HAVING절 이다.
+    SELECT userID '사용자', SUM(price*amount) '총 구매액' FROM buytbl GROUP BY userID ; 
+    여기서 WHERE SUM(price*amount) > 1000을 추가했을 것이다. 근데 오류가 난다... 이럴때 사용하는게 HAVING절 이다.
     SELECT userID '사용자', SUM(price*amount) '총 구매액' FROM buytbl GROUP BY userID HAVING SUM(price*amount) > 1000 ;
     - 추가로 총 구매액이 적은 사용자부터 나타내고 싶으면 ORDER BY절 사용
-    SELECT userID '사용자', SUM(price*amount) '총 구매액' FROM buytbl GROUP BY userID HAVING SUM(price*amount) > 1000 ORDER BY SUM(price*amount);
+    SELECT userID '사용자', SUM(price*amount) '총 구매액' FROM buytbl GROUP BY userID HAVING SUM(price*amount) > 1000 
+    ORDER BY SUM(price*amount);
 
 ### 12. ROLL UP
     - 총합 또는 중간 합계가 필요하다면 GROUP BY절과 함께 WITH ROLL UP문을 사용하면 된다. 만약 분류별로 함계 및 총합을 구하고 싶을경우
